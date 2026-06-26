@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}My Profile — MediCare Companion{% endblock %}
+{% block breadcrumb %}My Profile{% endblock %}
+{% block nav_profile %}active{% endblock %}
+{% block content %}
+
+<div class="page-title">My Profile</div>
+<div class="page-subtitle">Manage your account information</div>
+
+<div class="profile-grid">
+    <!-- Left card — avatar + stats -->
+    <div class="profile-card-left">
+        <div class="profile-avatar-big">{{ request.user.username|slice:":2"|upper }}</div>
+        <div class="profile-name">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+        <div class="profile-username">@{{ request.user.username }}</div>
+        <div style="font-size:13px;color:var(--text-4);">{{ request.user.email }}</div>
+        {% if profile.phone %}
+        <div style="font-size:13px;color:var(--text-4);margin-top:4px;font-family:var(--mono);">{{ profile.phone }}</div>
+        {% endif %}
+        <div class="profile-stat-row">
+            <div class="profile-mini-stat">
+                <div class="profile-mini-num pms-taken">{{ taken_count }}</div>
+                <div class="profile-mini-label">Taken</div>
+            </div>
+            <div class="profile-mini-stat">
+                <div class="profile-mini-num pms-missed">{{ missed_count }}</div>
+                <div class="profile-mini-label">Missed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right card — edit form -->
+    <div class="profile-card-right">
+        <div class="profile-card-head">
+            <div class="profile-card-head-title">Update Profile</div>
+            <div class="profile-card-head-sub">Changes will be saved immediately</div>
+        </div>
+        <div class="profile-form-body">
+            {% if success %}<div class="success-box">{{ success }}</div>{% endif %}
+            {% if error   %}<div class="error-box">{{ error }}</div>{% endif %}
+
+            <form method="POST" action="/profile/">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input class="form-input" type="text" name="first_name" value="{{ request.user.first_name }}" placeholder="First name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input class="form-input" type="text" name="last_name" value="{{ request.user.last_name }}" placeholder="Last name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input class="form-input" type="text" name="username" value="{{ request.user.username }}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input class="form-input" type="email" name="email" value="{{ request.user.email }}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input class="form-input" type="tel" name="phone" value="{{ profile.phone|default:'' }}" placeholder="+91XXXXXXXXXX">
+                </div>
+                <button type="submit" class="form-submit">Save Changes</button>
+            </form>
+
+            <hr style="border:none;border-top:1px solid var(--border);margin:28px 0;">
+
+            <div class="profile-card-head-title" style="margin-bottom:6px;">Change Password</div>
+            <div class="profile-card-head-sub" style="margin-bottom:18px;">Leave blank if you don't want to change it</div>
+
+            {% if pwd_error   %}<div class="error-box">{{ pwd_error }}</div>{% endif %}
+            {% if pwd_success %}<div class="success-box">{{ pwd_success }}</div>{% endif %}
+
+            <form method="POST" action="/profile/">
+                {% csrf_token %}
+                <input type="hidden" name="change_password" value="1">
+                <div class="form-group">
+                    <label class="form-label">Current Password</label>
+                    <input class="form-input" type="password" name="current_password" placeholder="Enter current password">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input class="form-input" type="password" name="new_password" placeholder="Min. 8 characters">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm New</label>
+                        <input class="form-input" type="password" name="confirm_password" placeholder="Repeat new password">
+                    </div>
+                </div>
+                <button type="submit" class="form-submit" style="background:var(--navy-3);">Update Password</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

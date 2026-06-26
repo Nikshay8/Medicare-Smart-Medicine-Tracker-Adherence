@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Edit Medicine — MediCare Companion{% endblock %}
+{% block breadcrumb %}Edit Medicine{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock %}
+
+{% block content %}
+<div class="form-page-wrap">
+  <div class="form-card">
+    <div class="form-card-head">
+      <span class="form-card-head-emoji">✏️</span>
+      <div class="form-head-badge">Edit Schedule</div>
+      <div class="form-card-title">Edit Medicine</div>
+      <div class="form-card-subtitle">Update the name or reminder time for this dose</div>
+    </div>
+    <div class="form-card-body">
+      {% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+      <form method="POST" id="editMedicineForm">
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="form-label">🏷 Medicine Name</label>
+          <input class="form-input" type="text" name="name" id="editMedicineName"
+            value="{{ medicine.name }}" required autocomplete="off">
+          <p id="editMedicineError" class="error-box" style="margin-top:8px;margin-bottom:0;display:none;"></p>
+        </div>
+        <div class="form-divider"></div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">🕐 Reminder Time</label>
+          <div class="time-row">
+            <select name="hour" class="form-select" id="editMedicineHour">
+              <option value="">Hour</option>
+              <option value="01" {% if hour == "01" %}selected{% endif %}>01</option>
+              <option value="02" {% if hour == "02" %}selected{% endif %}>02</option>
+              <option value="03" {% if hour == "03" %}selected{% endif %}>03</option>
+              <option value="04" {% if hour == "04" %}selected{% endif %}>04</option>
+              <option value="05" {% if hour == "05" %}selected{% endif %}>05</option>
+              <option value="06" {% if hour == "06" %}selected{% endif %}>06</option>
+              <option value="07" {% if hour == "07" %}selected{% endif %}>07</option>
+              <option value="08" {% if hour == "08" %}selected{% endif %}>08</option>
+              <option value="09" {% if hour == "09" %}selected{% endif %}>09</option>
+              <option value="10" {% if hour == "10" %}selected{% endif %}>10</option>
+              <option value="11" {% if hour == "11" %}selected{% endif %}>11</option>
+              <option value="12" {% if hour == "12" %}selected{% endif %}>12</option>
+            </select>
+            <select name="minute" class="form-select" id="editMedicineMinute">
+              <option value="">Min</option>
+              <option value="00" {% if minute == "00" %}selected{% endif %}>00</option>
+              <option value="05" {% if minute == "05" %}selected{% endif %}>05</option>
+              <option value="10" {% if minute == "10" %}selected{% endif %}>10</option>
+              <option value="15" {% if minute == "15" %}selected{% endif %}>15</option>
+              <option value="20" {% if minute == "20" %}selected{% endif %}>20</option>
+              <option value="25" {% if minute == "25" %}selected{% endif %}>25</option>
+              <option value="30" {% if minute == "30" %}selected{% endif %}>30</option>
+              <option value="35" {% if minute == "35" %}selected{% endif %}>35</option>
+              <option value="40" {% if minute == "40" %}selected{% endif %}>40</option>
+              <option value="45" {% if minute == "45" %}selected{% endif %}>45</option>
+              <option value="50" {% if minute == "50" %}selected{% endif %}>50</option>
+              <option value="55" {% if minute == "55" %}selected{% endif %}>55</option>
+            </select>
+            <select name="period" class="form-select" id="editMedicinePeriod">
+              <option value="">AM/PM</option>
+              <option value="AM" {% if period == "AM" %}selected{% endif %}>AM</option>
+              <option value="PM" {% if period == "PM" %}selected{% endif %}>PM</option>
+            </select>
+          </div>
+          <div class="time-hint">💡 Changes apply from the next scheduled dose</div>
+        </div>
+        <div class="form-divider"></div>
+        <button type="submit" class="form-submit">💾 Update Medicine</button>
+      </form>
+      <a href="/dashboard/" class="back-link">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/edit_medicine.js' %}"></script>{% endblock %}

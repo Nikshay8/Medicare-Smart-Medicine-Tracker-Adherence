@@ -1,0 +1,64 @@
+{% extends "base_auth.html" %}
+{% load static %}
+
+{% block title %}Create Account — MediCare Companion{% endblock %}
+
+{% block auth_headline %}Start Your<br>Health Journey.{% endblock %}
+{% block auth_sub %}Join MediCare Companion and take control of your daily medicine routine with ease.{% endblock %}
+
+{% block auth_features %}
+<div class="auth-feat"><span class="auth-feat-dot"></span>Add unlimited medicines</div>
+<div class="auth-feat"><span class="auth-feat-dot"></span>SMS reminders at dose time</div>
+<div class="auth-feat"><span class="auth-feat-dot"></span>Caregiver notified automatically</div>
+<div class="auth-feat"><span class="auth-feat-dot"></span>Full 30-day history view</div>
+{% endblock %}
+
+{% block form_title %}Create account{% endblock %}
+{% block form_sub %}Get started with MediCare Companion{% endblock %}
+
+{% block form_content %}
+{% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+<form method="POST" id="signupForm">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" name="first_name" placeholder="First name" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" name="last_name" placeholder="Last name" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Username</label>
+        <input class="form-input" type="text" name="username" id="signupUsername" placeholder="Choose a username" required>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" name="email" id="signupEmail" placeholder="Your email address" required>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" type="tel" name="phone" placeholder="+91XXXXXXXXXX or 10-digit number" required>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input class="form-input" type="password" name="password" id="signupPassword" placeholder="Min. 8 characters" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Confirm Password</label>
+            <input class="form-input" type="password" name="confirm_password" id="signupConfirmPassword" placeholder="Repeat password" required>
+        </div>
+    </div>
+    <p id="signupError" class="error-box"></p>
+    <button type="submit" class="form-submit">Create Account</button>
+</form>
+{% endblock %}
+
+{% block auth_footer %}Already have an account? <a href="/login/">Sign in</a>{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/signup.js' %}"></script>
+{% endblock %}

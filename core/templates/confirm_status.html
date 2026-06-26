@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm — MediCare Companion</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+<div class="confirm-overlay">
+    <div class="confirm-box">
+        <div class="confirm-icon">⚠️</div>
+        <h2 class="confirm-title">Already Marked Today</h2>
+        <p class="confirm-text">
+            <strong>{{ medicine.name }}</strong> is currently
+            <span class="status-chip {% if existing_status == 'taken' %}chip-taken{% else %}chip-missed{% endif %}">
+                {% if existing_status == 'taken' %}Taken{% else %}Missed{% endif %}
+            </span>
+        </p>
+        <p class="confirm-text">
+            Change it to
+            <span class="status-chip {% if new_status == 'taken' %}chip-taken{% else %}chip-missed{% endif %}">
+                {% if new_status == 'taken' %}Taken{% else %}Missed{% endif %}
+            </span>?
+        </p>
+        <form method="POST" action="/mark-status/{{ medicine.id }}/{{ new_status }}/">
+            {% csrf_token %}
+            <input type="hidden" name="confirmed" value="1">
+            <div class="confirm-btns">
+                <a href="/dashboard/" class="btn-confirm-no">Go Back</a>
+                <button type="submit" class="btn-confirm-yes">Yes, Change</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

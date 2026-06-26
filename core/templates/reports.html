@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reports — MediCare Companion{% endblock %}
+{% block breadcrumb %}Reports{% endblock %}
+{% block nav_reports %}active{% endblock %}
+
+{% block content %}
+
+<div class="reports-header">
+    <div>
+        <h1 class="reports-title">Medicine Reports</h1>
+        <p class="reports-sub">Per-medicine adherence breakdown — last 30 days</p>
+    </div>
+</div>
+
+{% if report_data %}
+
+<!-- Summary Bar -->
+<div class="reports-summary-bar">
+    <div class="rsb-item">
+        <div class="rsb-value rsb-taken">{{ total_taken }}</div>
+        <div class="rsb-label">Total Taken</div>
+    </div>
+    <div class="rsb-divider"></div>
+    <div class="rsb-item">
+        <div class="rsb-value rsb-missed">{{ total_missed }}</div>
+        <div class="rsb-label">Total Missed</div>
+    </div>
+    <div class="rsb-divider"></div>
+    <div class="rsb-item">
+        <div class="rsb-value rsb-adherence">{{ overall_adherence }}%</div>
+        <div class="rsb-label">Overall Adherence</div>
+    </div>
+    <div class="rsb-divider"></div>
+    <div class="rsb-item">
+        <div class="rsb-value rsb-med">{{ report_data|length }}</div>
+        <div class="rsb-label">Medicines Tracked</div>
+    </div>
+</div>
+
+<!-- Per-Medicine Charts Grid -->
+<div class="reports-grid">
+    {% for item in report_data %}
+    <div class="report-card">
+        <div class="report-card-header">
+            <div class="report-med-name">{{ item.medicine.name }}</div>
+            <div class="report-med-time">Daily at {{ item.medicine.time }}</div>
+        </div>
+
+        <div class="report-chart-wrap">
+            <!-- SVG Donut Chart — drawn by reports.js -->
+            <svg class="donut-svg"
+                 viewBox="0 0 120 120"
+                 data-taken="{{ item.taken }}"
+                 data-missed="{{ item.missed }}"
+                 data-total="{{ item.total }}">
+
+                <!-- Background ring -->
+                <circle class="donut-bg"
+                        cx="60" cy="60" r="45"
+                        fill="none"
+                        stroke-width="14"/>
+
+                <!-- Taken arc -->
+                <circle class="donut-taken"
+                        cx="60" cy="60" r="45"
+                        fill="none"
+                        stroke-width="14"
+                        stroke-linecap="round"
+                        transform="rotate(-90 60 60)"/>
+
+                <!-- Missed arc -->
+                <circle class="donut-missed"
+                        cx="60" cy="60" r="45"
+                        fill="none"
+                        stroke-width="14"
+                        stroke-linecap="round"
+                        transform="rotate(-90 60 60)"/>
+
+                <!-- Centre text -->
+                <text class="donut-pct" x="60" y="55" text-anchor="middle"></text>
+                <text class="donut-lbl" x="60" y="70" text-anchor="middle">adherence</text>
+            </svg>
+        </div>
+
+        <div class="report-legend">
+            <div class="legend-item">
+                <span class="legend-dot ld-taken"></span>
+                <span class="legend-text">Taken</span>
+                <span class="legend-count">{{ item.taken }}</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot ld-missed"></span>
+                <span class="legend-text">Missed</span>
+                <span class="legend-count">{{ item.missed }}</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot ld-none"></span>
+                <span class="legend-text">Not Logged</span>
+                <span class="legend-count">{{ item.not_logged }}</span>
+            </div>
+        </div>
+
+        <!-- Mini bar: last 7 days -->
+        <div class="report-minibar-label">Last 7 days</div>
+        <div class="report-minibar">
+            {% for day in item.last7 %}
+            <div class="minibar-col">
+                <div class="minibar-dot
+                    {% if day.status == 'taken' %}mb-taken
+                    {% elif day.status == 'missed' %}mb-missed
+                    {% else %}mb-none{% endif %}"
+                    title="{{ day.date }}">
+                </div>
+                <div class="minibar-day">{{ day.day_short }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="empty-box" style="margin-top: 32px;">
+    <div class="empty-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5">
+            <path d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/>
+        </svg>
+    </div>
+    <div class="empty-title">No data yet</div>
+    <div class="empty-desc">Add medicines and start logging doses to see your reports.</div>
+</div>
+{% endif %}
+
+<!-- Pass data to JS -->
+<script>
+var REPORT_DATA = [
+    {% for item in report_data %}
+    {
+        taken:  {{ item.taken }},
+        missed: {{ item.missed }},
+        total:  {{ item.total }}
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+</script>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/reports.js' %}"></script>
+{% endblock %}

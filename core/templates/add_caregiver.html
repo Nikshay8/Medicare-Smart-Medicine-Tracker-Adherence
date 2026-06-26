@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Add Caregiver — MediCare Companion{% endblock %}
+{% block breadcrumb %}Add Caregiver{% endblock %}
+{% block nav_add_care %}active{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock %}
+
+{% block content %}
+<div class="form-page-wrap">
+  <div class="form-card">
+    <div class="form-card-head">
+      <span class="form-card-head-emoji">👤</span>
+      <div class="form-head-badge">Caregiver Alert</div>
+      <div class="form-card-title">Add Caregiver</div>
+      <div class="form-card-subtitle">They will be notified when you miss doses repeatedly</div>
+    </div>
+    <div class="form-card-body">
+      {% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+      <div class="form-info-box">
+        <span class="form-info-icon">📧</span>
+        <div class="form-info-text">Your caregiver will receive an <strong>email alert</strong> if you miss 2 or more doses in a row. Only one caregiver can be added at a time.</div>
+      </div>
+      <form method="POST" id="caregiverForm">
+        {% csrf_token %}
+        <p id="caregiverError" class="error-box" style="display:none;"></p>
+        <div class="form-group">
+          <label class="form-label">👤 Full Name</label>
+          <input class="form-input" type="text" name="name" id="caregiverName"
+            placeholder="e.g. Sunita Sharma" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label">📧 Email Address</label>
+          <input class="form-input" type="email" name="email" id="caregiverEmail"
+            placeholder="e.g. sunita@example.com" required>
+        </div>
+        <div class="form-divider"></div>
+        <div class="form-group">
+          <label class="form-label">📱 Phone Number</label>
+          <input class="form-input" type="tel" name="phone"
+            placeholder="+91XXXXXXXXXX or 10-digit number" required>
+        </div>
+        <div class="form-divider"></div>
+        <div class="caregiver-alert-preview">
+          <div class="caregiver-alert-preview-title">📬 What your caregiver will receive</div>
+          <div class="caregiver-alert-preview-body">
+            <div class="caregiver-alert-preview-row">
+              <span class="caregiver-alert-dot caregiver-alert-dot--warn"></span>
+              <span>Email alert when you miss <strong>2 doses in a row</strong></span>
+            </div>
+            <div class="caregiver-alert-preview-row">
+              <span class="caregiver-alert-dot caregiver-alert-dot--red"></span>
+              <span>Follow-up alert for every additional missed dose</span>
+            </div>
+            <div class="caregiver-alert-preview-row">
+              <span class="caregiver-alert-dot caregiver-alert-dot--green"></span>
+              <span>No alert when you're taking doses on time ✅</span>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">✅ Save Caregiver</button>
+      </form>
+      <a href="/dashboard/" class="back-link">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/add_caregiver.js' %}"></script>{% endblock %}

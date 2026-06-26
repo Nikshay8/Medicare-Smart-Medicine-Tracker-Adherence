@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Medicine History — MediCare Companion{% endblock %}
+{% block breadcrumb %}Medicine History{% endblock %}
+{% block nav_history %}active{% endblock %}
+{% block content %}
+
+<div class="page-title">Medicine History</div>
+<div class="page-subtitle">Last 30 days — scroll right to see earlier dates</div>
+
+<div class="legend-row">
+    <div class="leg-item"><span class="leg-dot ld-taken"></span>Taken</div>
+    <div class="leg-item"><span class="leg-dot ld-missed"></span>Missed</div>
+    <div class="leg-item"><span class="leg-dot ld-none"></span>Not logged</div>
+</div>
+
+{% if history_data %}
+    {% for entry in history_data %}
+    <div class="hist-card">
+        <div class="hist-card-top">
+            <div>
+                <div class="hist-med-name">{{ entry.medicine.name }}</div>
+                <div class="hist-med-time">Daily at {{ entry.medicine.time }}</div>
+            </div>
+            <div class="hist-badges">
+                <span class="hist-badge hb-t">Taken: {{ entry.taken_count }}</span>
+                <span class="hist-badge hb-m">Missed: {{ entry.missed_count }}</span>
+            </div>
+        </div>
+        <div class="hist-scroll">
+            <div class="hist-row">
+                {% for d in entry.row %}
+                <div class="hist-cell">
+                    <div class="hist-day">{{ d.date|date:"D"|slice:":1" }}</div>
+                    <div class="hist-dot {% if d.status == 'taken' %}hd-t{% elif d.status == 'missed' %}hd-m{% else %}hd-none{% endif %}"
+                         title="{{ d.date|date:'d M, Y' }} — {{ d.status|capfirst }}">
+                        {% if d.status == 'taken' %}T{% elif d.status == 'missed' %}M{% else %}·{% endif %}
+                    </div>
+                    <div class="hist-date">{{ d.date|date:"d" }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="empty-box">
+        <div class="empty-icon">💊</div>
+        <div class="empty-title">No history yet</div>
+        <div class="empty-desc">Start marking doses from the dashboard to see your history here.</div>
+    </div>
+{% endif %}
+
+{% endblock %}

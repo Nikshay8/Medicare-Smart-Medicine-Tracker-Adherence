@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard — MediCare Companion{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+
+{% block content %}
+
+<!-- STAT CARDS -->
+<div class="stats-grid-dash">
+    <div class="stat-card-dash scd-taken">
+        <div class="stat-card-inner">
+            <div class="stat-text-wrap">
+                <div class="stat-label-dash">Total Taken</div>
+                <div class="stat-number-dash">{{ taken_count }}</div>
+                <div class="stat-sub-dash">doses logged</div>
+            </div>
+        </div>
+    </div>
+    <div class="stat-card-dash scd-missed">
+        <div class="stat-card-inner">
+            <div class="stat-text-wrap">
+                <div class="stat-label-dash">Total Missed</div>
+                <div class="stat-number-dash">{{ missed_count }}</div>
+                <div class="stat-sub-dash">doses missed</div>
+            </div>
+        </div>
+    </div>
+    <div class="stat-card-dash scd-adherence">
+        <div class="stat-card-inner">
+            <div class="stat-text-wrap">
+                <div class="stat-label-dash">Adherence</div>
+                <div class="stat-number-dash">
+                    {% if taken_count or missed_count %}{% widthratio taken_count taken_count|add:missed_count 100 %}%{% else %}—{% endif %}
+                </div>
+                <div class="stat-sub-dash">overall rate</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="dash-top-grid">
+
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <!-- Motivational Banner -->
+        <div id="streakBanner" style="display:none;" class="streak-banner sb-neutral">
+            <div class="streak-icon-wrap" id="streakIconWrap"></div>
+            <div class="streak-body">
+                <div class="streak-title" id="streakTitle"></div>
+                <div class="streak-sub"   id="streakSub"></div>
+            </div>
+        </div>
+
+        <!-- Next Dose + Timeline -->
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-card-label">Next Dose</div>
+                {% if medicines %}
+                    <div class="cd-med-name"  id="cdName">—</div>
+                    <div class="cd-med-sched" id="cdSched">—</div>
+                    <div id="cdTimerArea">
+                        <div class="cd-timer-row">
+                            <span class="cd-timer"  id="cdTimer">--:--</span>
+                            <span class="cd-suffix">remaining</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="cd-empty">No medicines added yet.</div>
+                {% endif %}
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-label">Today's Dose Timeline</div>
+                {% if medicines %}
+                    <div class="tl-track" id="timelineTrack"></div>
+                {% else %}
+                    <div class="cd-empty">Add a medicine to see your daily timeline.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="/add-medicine/" class="quick-btn qb-blue">
+                <div class="qb-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="16"/>
+                        <line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="qb-label">Add Medicine</div>
+                    <div class="qb-sub">Add a new dose</div>
+                </div>
+            </a>
+            <a href="/add-caregiver/" class="quick-btn qb-green">
+                <div class="qb-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                        <line x1="19" y1="8" x2="19" y2="14"/>
+                        <line x1="22" y1="11" x2="16" y2="11"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="qb-label">Add Caregiver</div>
+                    <div class="qb-sub">Set alert contact</div>
+                </div>
+            </a>
+            <a href="/view-caregiver/" class="quick-btn qb-navy">
+                <div class="qb-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="qb-label">View Caregiver</div>
+                    <div class="qb-sub">See contact info</div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- RIGHT: Recent Activity -->
+    <div>
+        <div class="activity-card-side">
+            <div class="activity-head">Recent Activity</div>
+            <div>
+                {% if recent_activity %}
+                    {% for item in recent_activity %}
+                    <div class="act-item">
+                        <div class="act-dot {% if item.status == 'taken' %}ad-taken{% else %}ad-missed{% endif %}"></div>
+                        <div class="act-info">
+                            <div class="act-name">{{ item.medicine_name }}</div>
+                            <div class="act-meta">{{ item.day }} &middot; {{ item.time }}</div>
+                        </div>
+                        <div class="act-badge {% if item.status == 'taken' %}ab-t{% else %}ab-m{% endif %}">
+                            {{ item.status|capfirst }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="act-empty">No activity yet.<br>Start marking your doses!</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- PENDING -->
+{% if unlogged_medicines %}
+<div class="pending-box" style="margin-bottom:16px;">
+    <div class="pending-head">
+        <span>!</span>
+        <span class="pending-head-text">Not marked today — please update</span>
+    </div>
+    <div class="pending-list">
+        {% for med in unlogged_medicines %}
+        <div class="pending-item">
+            <span class="pending-name">{{ med.name }}</span>
+            <span class="pending-time">{{ med.time }}</span>
+            <div class="pending-actions">
+                <a href="/mark-status/{{ med.id }}/taken/"  class="btn-pill btn-taken">Taken</a>
+                <a href="/mark-status/{{ med.id }}/missed/" class="btn-pill btn-missed">Missed</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- BANNERS -->
+{% if request.GET.undo_id %}
+<div class="banner banner-success" style="margin-bottom:14px;">
+    <span class="banner-icon">✓</span>
+    <div class="banner-body-wrap">
+        <div class="banner-title"><strong>{{ request.GET.med }}</strong> marked as {% if request.GET.undo_status == 'taken' %}Taken{% else %}Missed{% endif %}.</div>
+        <a href="/undo-log/{{ request.GET.undo_id }}/" class="undo-link">Undo this action</a>
+    </div>
+</div>
+{% endif %}
+{% if request.GET.info %}
+<div class="banner banner-info" style="margin-bottom:14px;">
+    <span class="banner-icon">i</span>
+    <div class="banner-body-wrap">
+        <div class="banner-title">Already logged today</div>
+        <div class="banner-desc"><strong>{{ request.GET.med }}</strong> was already marked as {% if request.GET.info == 'already_taken' %}Taken{% else %}Missed{% endif %} for today.</div>
+    </div>
+</div>
+{% endif %}
+{% if alert_message %}
+<div class="banner banner-alert" style="margin-bottom:14px;">
+    <span class="banner-icon">!</span>
+    <div class="banner-body-wrap"><div class="banner-title">{{ alert_message }}</div></div>
+</div>
+{% endif %}
+{% if caregiver_alert_sent %}
+<div class="banner banner-success" style="margin-bottom:14px;">
+    <span class="banner-icon">✉</span>
+    <div class="banner-body-wrap"><div class="banner-title">Caregiver has been notified via email.</div></div>
+</div>
+{% endif %}
+
+
+<div class="section-bar">
+    <span class="section-bar-title">Your Medicines</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:14px;margin-top:12px;">
+    {% if medicines %}
+        {% for medicine in medicines %}
+        <div class="med-card-e">
+            <div class="med-card-e-top">
+                <div>
+                    <div class="med-name-lg">{{ medicine.name }}</div>
+                    <div class="med-time-lg">Daily at {{ medicine.time }}</div>
+                </div>
+                <div class="med-act">
+                    <a href="/mark-status/{{ medicine.id }}/taken/"  class="bpe bpe-taken">Taken</a>
+                    <a href="/mark-status/{{ medicine.id }}/missed/" class="bpe bpe-missed">Missed</a>
+                    <a href="/edit-medicine/{{ medicine.id }}/"      class="bpe bpe-edit">Edit</a>
+                    <a href="/delete-medicine/{{ medicine.id }}/"    class="bpe bpe-delete"
+                       onclick="return confirm('Delete {{ medicine.name }}?')">Delete</a>
+                </div>
+            </div>
+            <div class="med-tags">
+                <span class="med-tag tag-status">{{ medicine.latest_status }}</span>
+                <span class="med-tag tag-streak">{{ medicine.missed_streak }} missed streak</span>
+                <span class="med-tag tag-taken">Taken: {{ medicine.total_taken }}</span>
+                <span class="med-tag tag-missed">Missed: {{ medicine.total_missed }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-box">
+            <div class="empty-icon">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                </svg>
+            </div>
+            <div class="empty-title">No medicines added yet</div>
+            <div class="empty-desc">Click "Add Medicine" above to get started.</div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Django → JS data bridge -->
+<script>
+var MEDICINE_DATA = [
+    {% for m in medicines %}
+    {
+        id:           {{ m.id }},
+        name:         "{{ m.name|escapejs }}",
+        time:         "{{ m.time|escapejs }}",
+        totalTaken:   {{ m.total_taken }},
+        totalMissed:  {{ m.total_missed }},
+        missedStreak: {{ m.missed_streak }},
+        latestStatus: "{{ m.latest_status|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+var TAKEN_COUNT  = {{ taken_count }};
+var MISSED_COUNT = {{ missed_count }};
+</script>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

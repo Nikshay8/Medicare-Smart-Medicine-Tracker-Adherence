@@ -1,0 +1,479 @@
+/* ═══════════════════════════════════════════
+   SHARED FORM PAGE STYLES — consistent across
+   Add Medicine, Add Caregiver, View Caregiver,
+   Edit Medicine
+═══════════════════════════════════════════ */
+
+/* Page wrapper — centers everything */
+.form-page-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+}
+
+/* Card */
+.form-card {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+/* ── Header ── */
+.form-card-head {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 100%);
+    padding: 28px 32px 26px;
+    position: relative;
+    overflow: hidden;
+}
+.form-card-head::after {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    top: -70px; right: -60px;
+}
+.form-card-head-emoji {
+    position: absolute;
+    font-size: 85px;
+    right: 22px; top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.08;
+    line-height: 1;
+    user-select: none;
+}
+.form-head-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    position: relative; z-index: 1;
+}
+.form-card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+    position: relative; z-index: 1;
+    letter-spacing: -0.02em;
+}
+.form-card-subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    position: relative; z-index: 1;
+    font-weight: 400;
+}
+
+/* ── Body ── */
+.form-card-body { padding: 28px 32px 32px; }
+
+/* ── Label ── */
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-3);
+    margin-bottom: 8px;
+}
+.form-group { margin-bottom: 18px; }
+
+/* ── Inputs ── */
+.form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--r-md);
+    font-size: 14px;
+    color: var(--text-1);
+    background: var(--bg);
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    font-family: var(--font);
+}
+.form-input:focus {
+    outline: none;
+    border-color: var(--blue);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+.form-input::placeholder { color: var(--text-4); }
+
+/* ── Select dropdowns ── */
+.form-select {
+    width: 100%;
+    padding: 12px 30px 12px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--r-md);
+    font-size: 14px;
+    color: var(--text-1);
+    background: var(--bg);
+    font-family: var(--font);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form-select:focus {
+    outline: none;
+    border-color: var(--blue);
+    background-color: var(--white);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+.time-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.time-hint { font-size: 11px; color: var(--text-4); margin-top: 8px; }
+
+/* ── Divider ── */
+.form-divider { height: 1px; background: var(--bg-2); margin: 20px 0; }
+
+/* ── Primary submit button ── */
+.form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    border-radius: var(--r-md);
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: -0.01em;
+}
+.form-submit:hover {
+    background: var(--blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(37,99,235,0.28);
+}
+.form-submit:active { transform: none; }
+
+/* ── Back link ── */
+.back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-3);
+    font-weight: 500;
+    transition: color 0.15s;
+    text-decoration: none;
+}
+.back-link:hover { color: var(--blue); }
+
+/* ── Error box ── */
+.error-box {
+    background: var(--red-pale);
+    border: 1px solid var(--red-border);
+    color: var(--red);
+    border-radius: var(--r-md);
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+/* ── Info box (caregiver alert note) ── */
+.form-info-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--blue-pale);
+    border: 1px solid var(--blue-border);
+    border-radius: var(--r-md);
+    padding: 12px 14px;
+    margin-bottom: 20px;
+}
+.form-info-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.form-info-text { font-size: 12px; color: #1e40af; line-height: 1.5; font-weight: 500; }
+
+/* ── View Caregiver info rows ── */
+.caregiver-info-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--bg-2);
+}
+.caregiver-info-row:last-child { border-bottom: none; }
+.caregiver-info-icon-wrap {
+    width: 40px; height: 40px;
+    border-radius: var(--r-md);
+    background: var(--blue-pale);
+    border: 1px solid var(--blue-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+}
+.caregiver-info-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-4);
+    margin-bottom: 3px;
+}
+.caregiver-info-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-1);
+}
+
+/* ── View Caregiver name header ── */
+.caregiver-name-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 2px;
+    position: relative; z-index: 1;
+}
+.caregiver-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 700; color: white;
+    flex-shrink: 0;
+}
+
+
+/* ═══════════════════════════════════════════
+   ADD MEDICINE — tips strip + how-it-works
+═══════════════════════════════════════════ */
+
+.med-tips-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 12px 16px;
+    margin-bottom: 22px;
+    gap: 8px;
+}
+.med-tip-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+}
+.med-tip-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+.med-tip-text {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+}
+.med-tip-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+    flex-shrink: 0;
+}
+
+.med-time-group { margin-bottom: 0; }
+
+.med-error-inline {
+    margin-top: 8px;
+    margin-bottom: 0;
+    display: none;
+}
+
+.med-how-it-works {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 16px 18px;
+    margin-bottom: 22px;
+}
+.med-how-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-4);
+    margin-bottom: 12px;
+}
+.med-how-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.med-how-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.med-how-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.med-how-desc {
+    font-size: 13px;
+    color: var(--text-2);
+    font-weight: 500;
+}
+
+
+/* ═══════════════════════════════════════════
+   ADD CAREGIVER — alert preview block
+═══════════════════════════════════════════ */
+
+.caregiver-alert-preview {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 16px 18px;
+    margin-bottom: 22px;
+}
+.caregiver-alert-preview-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-3);
+    margin-bottom: 12px;
+}
+.caregiver-alert-preview-body {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+.caregiver-alert-preview-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-2);
+    font-weight: 400;
+    line-height: 1.45;
+}
+.caregiver-alert-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.caregiver-alert-dot--warn  { background: #f59e0b; }
+.caregiver-alert-dot--red   { background: var(--red); }
+.caregiver-alert-dot--green { background: #16a34a; }
+
+
+/* ═══════════════════════════════════════════
+   VIEW CAREGIVER — active badge + trigger box
+═══════════════════════════════════════════ */
+
+.caregiver-active-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(22, 163, 74, 0.15);
+    border: 1px solid rgba(22, 163, 74, 0.3);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #bbf7d0;
+    margin-top: 4px;
+}
+
+.caregiver-trigger-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 16px 18px;
+    margin-bottom: 4px;
+}
+.caregiver-trigger-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-3);
+    margin-bottom: 12px;
+}
+.caregiver-trigger-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.caregiver-trigger-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+.caregiver-trigger-icon {
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.caregiver-trigger-text {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.5;
+}
+
+.caregiver-edit-btn {
+    text-decoration: none;
+}
+
+
+/* ── Caregiver action row (Edit + Delete side by side) ── */
+.caregiver-action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
+.caregiver-delete-btn {
+    background: var(--red);
+    text-decoration: none;
+}
+.caregiver-delete-btn:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(220,38,38,0.28);
+}

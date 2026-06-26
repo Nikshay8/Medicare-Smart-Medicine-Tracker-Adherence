@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Add Medicine — MediCare Companion{% endblock %}
+{% block breadcrumb %}Add Medicine{% endblock %}
+{% block nav_add_med %}active{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock %}
+
+{% block content %}
+<div class="form-page-wrap">
+  <div class="form-card">
+    <div class="form-card-head">
+      <span class="form-card-head-emoji">💊</span>
+      <div class="form-head-badge">Medicine Schedule</div>
+      <div class="form-card-title">Add New Medicine</div>
+      <div class="form-card-subtitle">Set a name and daily reminder time for your dose</div>
+    </div>
+    <div class="form-card-body">
+      {% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+
+      <div class="med-tips-strip">
+        <div class="med-tip-item">
+          <span class="med-tip-icon">🔔</span>
+          <span class="med-tip-text">Daily reminder</span>
+        </div>
+        <div class="med-tip-divider"></div>
+        <div class="med-tip-item">
+          <span class="med-tip-icon">📋</span>
+          <span class="med-tip-text">Tracks missed doses</span>
+        </div>
+        <div class="med-tip-divider"></div>
+        <div class="med-tip-item">
+          <span class="med-tip-icon">🛡</span>
+          <span class="med-tip-text">Alerts caregiver</span>
+        </div>
+      </div>
+
+      <form method="POST" id="medicineForm">
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="form-label">🏷 Medicine Name</label>
+          <input class="form-input" type="text" name="name" id="medicineName"
+            placeholder="e.g. Metformin, Vitamin D3, Aspirin" required autocomplete="off">
+          <p id="medicineError" class="error-box med-error-inline"></p>
+        </div>
+        <div class="form-divider"></div>
+        <div class="form-group med-time-group">
+          <label class="form-label">🕐 Reminder Time</label>
+          <div class="time-row">
+            <select name="hour" class="form-select" id="medicineHour">
+              <option value="">Hour</option>
+              <option value="01">01</option><option value="02">02</option>
+              <option value="03">03</option><option value="04">04</option>
+              <option value="05">05</option><option value="06">06</option>
+              <option value="07">07</option><option value="08">08</option>
+              <option value="09">09</option><option value="10">10</option>
+              <option value="11">11</option><option value="12">12</option>
+            </select>
+            <select name="minute" class="form-select" id="medicineMinute">
+              <option value="">Min</option>
+              <option value="00">00</option><option value="05">05</option>
+              <option value="10">10</option><option value="15">15</option>
+              <option value="20">20</option><option value="25">25</option>
+              <option value="30">30</option><option value="35">35</option>
+              <option value="40">40</option><option value="45">45</option>
+              <option value="50">50</option><option value="55">55</option>
+            </select>
+            <select name="period" class="form-select" id="medicinePeriod">
+              <option value="">AM/PM</option>
+              <option value="AM">AM</option>
+              <option value="PM">PM</option>
+            </select>
+          </div>
+          <div class="time-hint">💡 You'll be reminded at this time every day</div>
+        </div>
+        <div class="form-divider"></div>
+        <div class="med-how-it-works">
+          <div class="med-how-title">How it works</div>
+          <div class="med-how-steps">
+            <div class="med-how-step">
+              <span class="med-how-num">1</span>
+              <span class="med-how-desc">Save medicine with a reminder time</span>
+            </div>
+            <div class="med-how-step">
+              <span class="med-how-num">2</span>
+              <span class="med-how-desc">Mark each dose as taken or missed daily</span>
+            </div>
+            <div class="med-how-step">
+              <span class="med-how-num">3</span>
+              <span class="med-how-desc">Caregiver is notified after 2+ missed doses</span>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">💾 Save Medicine</button>
+      </form>
+      <a href="/dashboard/" class="back-link">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/add_medicine.js' %}"></script>{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}View Caregiver — MediCare Companion{% endblock %}
+{% block breadcrumb %}View Caregiver{% endblock %}
+{% block nav_view_care %}active{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/forms.css' %}">{% endblock %}
+
+{% block content %}
+<div class="form-page-wrap">
+  <div class="form-card">
+    {% if caregiver %}
+    <div class="form-card-head">
+      <span class="form-card-head-emoji">🛡</span>
+      <div class="form-head-badge">Your Caregiver</div>
+      <div class="caregiver-name-header">
+        <div class="caregiver-avatar">{{ caregiver.name|slice:":1"|upper }}</div>
+        <div>
+          <div class="form-card-title">{{ caregiver.name }}</div>
+          <div class="caregiver-active-badge">✅ Active Alert Contact</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-card-body">
+      <div class="caregiver-info-row">
+        <div class="caregiver-info-icon-wrap">📧</div>
+        <div>
+          <div class="caregiver-info-label">Email</div>
+          <div class="caregiver-info-value">{{ caregiver.email }}</div>
+        </div>
+      </div>
+      <div class="caregiver-info-row">
+        <div class="caregiver-info-icon-wrap">📱</div>
+        <div>
+          <div class="caregiver-info-label">Phone</div>
+          <div class="caregiver-info-value">{{ caregiver.phone|default:"Not provided" }}</div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="caregiver-trigger-box">
+        <div class="caregiver-trigger-title">🔔 When will they be alerted?</div>
+        <div class="caregiver-trigger-list">
+          <div class="caregiver-trigger-row">
+            <span class="caregiver-trigger-icon caregiver-trigger-icon--warn">⚠️</span>
+            <span class="caregiver-trigger-text">After <strong>2 consecutive missed doses</strong> — first alert sent</span>
+          </div>
+          <div class="caregiver-trigger-row">
+            <span class="caregiver-trigger-icon caregiver-trigger-icon--red">🚨</span>
+            <span class="caregiver-trigger-text">Each additional missed dose triggers another alert</span>
+          </div>
+          <div class="caregiver-trigger-row">
+            <span class="caregiver-trigger-icon caregiver-trigger-icon--green">✅</span>
+            <span class="caregiver-trigger-text">No alerts while you're taking medicines on time</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="caregiver-action-row">
+        <a href="/add-caregiver/" class="form-submit caregiver-edit-btn">✏️ Edit Caregiver</a>
+        <a href="/delete-caregiver/" class="form-submit caregiver-delete-btn">🗑 Delete Caregiver</a>
+      </div>
+      <a href="/dashboard/" class="back-link">← Back to Dashboard</a>
+    </div>
+    {% else %}
+    <div class="form-card-head">
+      <span class="form-card-head-emoji">👤</span>
+      <div class="form-head-badge">Caregiver Alert</div>
+      <div class="form-card-title">No Caregiver Added</div>
+      <div class="form-card-subtitle">Add someone to receive missed dose alerts</div>
+    </div>
+    <div class="form-card-body">
+      <div class="form-info-box">
+        <span class="form-info-icon">ℹ️</span>
+        <div class="form-info-text">No caregiver has been assigned yet. Add a caregiver so they can be alerted when you miss doses repeatedly.</div>
+      </div>
+      <a href="/add-caregiver/" class="form-submit" style="text-decoration:none;">+ Add Caregiver</a>
+      <a href="/dashboard/" class="back-link">← Back to Dashboard</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

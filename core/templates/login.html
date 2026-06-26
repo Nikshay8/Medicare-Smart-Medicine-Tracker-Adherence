@@ -1,0 +1,40 @@
+{% extends "base_auth.html" %}
+{% load static %}
+
+{% block title %}Sign In — MediCare Companion{% endblock %}
+
+{% block auth_headline %}Your Health,<br>Managed Smartly.{% endblock %}
+{% block auth_sub %}Track medicines, never miss a dose, and keep your caregiver informed automatically.{% endblock %}
+
+{% block auth_features %}
+<div class="auth-feat"><span class="auth-feat-dot"></span>Daily medicine reminders</div>
+<div class="auth-feat"><span class="auth-feat-dot"></span>Missed dose streak tracking</div>
+<div class="auth-feat"><span class="auth-feat-dot"></span>Automatic caregiver alerts</div>
+<div class="auth-feat"><span class="auth-feat-dot"></span>30-day medicine history</div>
+{% endblock %}
+
+{% block form_title %}Welcome back{% endblock %}
+{% block form_sub %}Sign in to your MediCare account{% endblock %}
+
+{% block form_content %}
+{% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+<form method="POST" id="loginForm">
+    {% csrf_token %}
+    <div class="form-group">
+        <label class="form-label">Username</label>
+        <input class="form-input" type="text" name="username" id="loginUsername" placeholder="Enter your username" required>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" name="password" id="loginPassword" placeholder="Enter your password" required>
+    </div>
+    <p id="loginError" class="error-box"></p>
+    <button type="submit" class="form-submit">Sign In</button>
+</form>
+{% endblock %}
+
+{% block auth_footer %}Don't have an account? <a href="{% url 'signup' %}">Create one</a>{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

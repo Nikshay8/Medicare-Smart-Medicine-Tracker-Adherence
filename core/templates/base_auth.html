@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MediCare Companion{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+<div class="auth-layout">
+    <div class="auth-left">
+        <img src="{% static 'images/Logo(3).png' %}" class="auth-logo" alt="MediCare">
+        <h1 class="auth-headline">{% block auth_headline %}{% endblock %}</h1>
+        <p class="auth-sub">{% block auth_sub %}{% endblock %}</p>
+        <div class="auth-features">
+            {% block auth_features %}{% endblock %}
+        </div>
+    </div>
+    <div class="auth-right">
+        <div class="auth-form-title">{% block form_title %}{% endblock %}</div>
+        <div class="auth-form-sub">{% block form_sub %}{% endblock %}</div>
+        {% block form_content %}{% endblock %}
+        <p class="auth-footer">{% block auth_footer %}{% endblock %}</p>
+    </div>
+</div>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
