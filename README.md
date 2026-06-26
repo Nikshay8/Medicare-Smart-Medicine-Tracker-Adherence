@@ -17,7 +17,7 @@ A Django-based medicine adherence web app for elderly users with caregiver email
 ## Setup Instructions
 
 ### 1. Clone the repository
-git clone https://github.com/Nikshay8/Medicare---Smart-Medicine-Tracker-Adherence.git
+git clone https://github.com/Nikshay8/Medicare-Smart-Medicine-Tracker-Adherence.git
 
 ### 2. Install dependencies
 pip install -r requirements.txt
