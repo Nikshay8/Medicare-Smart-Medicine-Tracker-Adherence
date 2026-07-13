@@ -1,4 +1,4 @@
-/* ── Sidebar toggle ── */
+/* Sidebar toggle */
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebarOverlay').style.display =
@@ -9,7 +9,7 @@ function closeSidebar() {
     document.getElementById('sidebarOverlay').style.display = 'none';
 }
 
-/* ── Profile dropdown ── */
+/* Profile dropdown */
 function toggleProfileDropdown(e) {
     e.stopPropagation();
     var avatar   = document.getElementById('headerAvatar');
@@ -28,13 +28,8 @@ document.addEventListener('click', function(e) {
     }
 });
 
-/**
- * MediCare Companion — Dashboard JS
- * Dose reminder · Next-dose countdown · Dose timeline · Streak banner
- * Pure vanilla JS, no libraries
- */
 
-/* ── SVG icon strings ── */
+/* SVG icon strings*/
 var ICONS = {
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
     cross:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
@@ -46,7 +41,7 @@ var ICONS = {
     info:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
 };
 
-/* ── Parse "HH:MM AM/PM" → minutes from midnight ── */
+
 function parseTime(str) {
     var p = (str || '').trim().split(' ');
     if (p.length !== 2) return null;
@@ -59,9 +54,7 @@ function parseTime(str) {
     return h * 60 + m;
 }
 
-/* ─────────────────────────────────────
-   DOSE REMINDER — alert at exact minute
-───────────────────────────────────────*/
+//Dose Reminder
 function checkReminders() {
     if (!window.MEDICINE_DATA || !MEDICINE_DATA.length) return;
     var now = new Date();
@@ -76,9 +69,7 @@ function checkReminders() {
 checkReminders();
 setInterval(checkReminders, 60000);
 
-/* ─────────────────────────────────────
-   NEXT DOSE COUNTDOWN
-───────────────────────────────────────*/
+//Countdown for next dose
 function updateCountdown() {
     if (!window.MEDICINE_DATA || !MEDICINE_DATA.length) return;
 
@@ -128,9 +119,7 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 30000);
 
-/* ─────────────────────────────────────
-   DOSE TIMELINE
-───────────────────────────────────────*/
+//Dose Timeline
 function buildTimeline() {
     var track = document.getElementById('timelineTrack');
     if (!track || !window.MEDICINE_DATA || !MEDICINE_DATA.length) return;
@@ -198,9 +187,7 @@ function buildTimeline() {
 
 buildTimeline();
 
-/* ─────────────────────────────────────
-   MOTIVATIONAL STREAK BANNER
-───────────────────────────────────────*/
+//Banner - Motivation
 function buildStreakBanner() {
     var banner  = document.getElementById('streakBanner');
     var iconWrap = document.getElementById('streakIconWrap');

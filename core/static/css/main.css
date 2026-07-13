@@ -1,13 +1,6 @@
-/* ══════════════════════════════════════════════
-   MediCare Companion — Web App Design System v3
-   Layout: Sidebar + Header + Content
-   Font: DM Sans (clean, medical, readable)
-══════════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
 :root {
-  /* Brand */
   --navy:        #0a1628;
   --navy-2:      #112240;
   --navy-3:      #1a3a5c;
@@ -16,7 +9,6 @@
   --blue-pale:   #eff6ff;
   --blue-border: #bfdbfe;
 
-  /* Semantic */
   --green:       #16a34a;
   --green-pale:  #f0fdf4;
   --green-border:#bbf7d0;
@@ -32,7 +24,6 @@
   --purple:      #7c3aed;
   --purple-pale: #f5f3ff;
 
-  /* Neutrals */
   --white:    #ffffff;
   --bg:       #f4f6f9;
   --bg-2:     #eef1f5;
@@ -64,7 +55,7 @@
   --mono: 'DM Mono', monospace;
 }
 
-/* ── Reset ── */
+/* Reset */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body {
@@ -77,16 +68,12 @@ body {
 a { text-decoration:none; color:inherit; }
 button, input, select, textarea { font-family:var(--font); }
 
-/* ══════════════════════════════════════════════
-   APP SHELL — SIDEBAR + MAIN
-══════════════════════════════════════════════ */
-
 .app-shell {
   display: flex;
   min-height: 100vh;
 }
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 .sidebar {
   width: var(--sidebar-w);
   min-height: 100vh;
@@ -259,7 +246,7 @@ button, input, select, textarea { font-family:var(--font); }
   color: #fca5a5;
 }
 
-/* ── MAIN CONTENT ── */
+/* MAIN CONTENT */
 .main-content {
   margin-left: var(--sidebar-w);
   flex: 1;
@@ -268,7 +255,7 @@ button, input, select, textarea { font-family:var(--font); }
   flex-direction: column;
 }
 
-/* ── TOP HEADER ── */
+/*TOP HEADER */
 .top-header {
   height: var(--header-h);
   background: var(--white);
@@ -343,9 +330,7 @@ button, input, select, textarea { font-family:var(--font); }
   margin-bottom: 24px;
 }
 
-/* ══════════════════════════════════════════════
-   STAT CARDS
-══════════════════════════════════════════════ */
+/* STAT CARDS*/
 
 .stats-grid {
   display: grid;
@@ -404,9 +389,7 @@ button, input, select, textarea { font-family:var(--font); }
   font-weight: 400;
 }
 
-/* ══════════════════════════════════════════════
-   TODAY SCHEDULE STRIP
-══════════════════════════════════════════════ */
+/* TODAY SCHEDULE STRIP */
 .schedule-strip {
   background: var(--white);
   border: 1px solid var(--border);
@@ -452,9 +435,7 @@ button, input, select, textarea { font-family:var(--font); }
   
 }
 
-/* ══════════════════════════════════════════════
-   BANNERS
-══════════════════════════════════════════════ */
+/* BANNERS */
 .banner {
   display: flex;
   align-items: flex-start;
@@ -481,9 +462,7 @@ button, input, select, textarea { font-family:var(--font); }
   text-decoration:underline; color:#14532d; cursor:pointer;
 }
 
-/* ══════════════════════════════════════════════
-   PENDING SECTION
-══════════════════════════════════════════════ */
+/* PENDING SECTION */
 .pending-box {
   background: var(--white);
   border: 1px solid var(--amber-border);
@@ -521,9 +500,7 @@ button, input, select, textarea { font-family:var(--font); }
 .pending-time { font-size:12px; color:var(--text-4); }
 .pending-actions { display:flex; gap:7px; }
 
-/* ══════════════════════════════════════════════
-   SECTION DIVIDER
-══════════════════════════════════════════════ */
+/* SECTION DIVIDER */
 .section-bar {
   display: flex;
   align-items: center;
@@ -539,9 +516,7 @@ button, input, select, textarea { font-family:var(--font); }
   color: var(--text-4);
 }
 
-/* ══════════════════════════════════════════════
-   MEDICINE CARDS
-══════════════════════════════════════════════ */
+/*  MEDICINE CARDS */
 .medicine-list { display:flex; flex-direction:column; gap:10px; }
 
 .med-card {
@@ -640,9 +615,7 @@ button, input, select, textarea { font-family:var(--font); }
 .empty-title { font-size:15px; font-weight:700; color:var(--text-3); margin-bottom:5px; }
 .empty-desc  { font-size:13px; color:var(--text-4); }
 
-/* ══════════════════════════════════════════════
-   ACTION BUTTONS (top of sections)
-══════════════════════════════════════════════ */
+/* ACTION BUTTONS (top of sections)*/
 .btn {
   display: inline-flex;
   align-items: center;
@@ -670,9 +643,7 @@ button, input, select, textarea { font-family:var(--font); }
 }
 .btn-outline:hover { background:var(--bg); }
 
-/* ══════════════════════════════════════════════
-   FORMS (inner pages)
-══════════════════════════════════════════════ */
+/* FORMS (inner pages) */
 .form-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -827,9 +798,7 @@ button, input, select, textarea { font-family:var(--font); }
 }
 .back-link:hover { color: var(--blue); }
 
-/* ══════════════════════════════════════════════
-   AUTH PAGES
-══════════════════════════════════════════════ */
+/* AUTH PAGES*/
 .auth-layout {
   min-height: 100vh;
   display: grid;
@@ -952,9 +921,7 @@ button, input, select, textarea { font-family:var(--font); }
 
 .auth-footer a { color: var(--blue); font-weight: 700; }
 
-/* ══════════════════════════════════════════════
-   PROFILE PAGE
-══════════════════════════════════════════════ */
+/* PROFILE PAGE */
 .profile-grid {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -1059,9 +1026,7 @@ button, input, select, textarea { font-family:var(--font); }
 
 .profile-form-body { padding: 24px; }
 
-/* ══════════════════════════════════════════════
-   CAREGIVER VIEW
-══════════════════════════════════════════════ */
+/* CAREGIVER VIEW*/
 .caregiver-display {
   background: var(--white);
   border: 1px solid var(--border);
@@ -1120,9 +1085,7 @@ button, input, select, textarea { font-family:var(--font); }
 .no-caregiver-icon { font-size:38px; margin-bottom:10px; }
 .no-caregiver-text { font-size:14px; }
 
-/* ══════════════════════════════════════════════
-   HISTORY PAGE
-══════════════════════════════════════════════ */
+/*HISTORY PAGE */
 .legend-row {
   display: flex;
   gap: 18px;
@@ -1211,9 +1174,7 @@ button, input, select, textarea { font-family:var(--font); }
 
 .hist-date { font-size:9px; color:var(--text-4); font-weight:600; }
 
-/* ══════════════════════════════════════════════
-   CONFIRM PAGE
-══════════════════════════════════════════════ */
+/* CONFIRM PAGE */
 .confirm-overlay {
   min-height: 100vh;
   display: flex;
@@ -1286,9 +1247,7 @@ button, input, select, textarea { font-family:var(--font); }
 }
 .btn-confirm-no:hover { background: var(--bg-2); }
 
-/* ══════════════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════════════ */
+/*RESPONSIVE*/
 @media (max-width: 900px) {
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .profile-grid { grid-template-columns: 1fr; }
@@ -1323,8 +1282,7 @@ button, input, select, textarea { font-family:var(--font); }
   z-index: 99;
 }
 
-/* ── Profile Dropdown ── */
-/* ── Profile dropdown ── */
+/* Profile Dropdown */
     .header-avatar-wrap {
         position: relative;
     }
@@ -1439,10 +1397,8 @@ button, input, select, textarea { font-family:var(--font); }
 
     .pd-item:hover .pd-icon { opacity: 1; }
 
-/* ── Dashboard page styles ── */
-/* ══════════════════════════════
-   STAT CARDS — bigger & clearer
-══════════════════════════════ */
+/*  Dashboard page styles */
+/* STAT CARDS */
 .stats-grid-dash {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1472,7 +1428,7 @@ button, input, select, textarea { font-family:var(--font); }
 .scd-missed::after    { background: var(--red); }
 .scd-adherence::after { background: var(--blue); }
 
-/* No icon — just text stacked */
+/* No icon - just text stacked */
 .stat-card-inner {
     display: flex;
     flex-direction: column;
@@ -1509,9 +1465,7 @@ button, input, select, textarea { font-family:var(--font); }
     margin-top: 8px;
 }
 
-/* ══════════════════════════════
-   STREAK BANNER — below stats
-══════════════════════════════ */
+/* STREAK BANNER — below stats*/
 .streak-banner {
     display: flex;
     align-items: center;
@@ -1553,9 +1507,7 @@ button, input, select, textarea { font-family:var(--font); }
 .sb-warn    { background: var(--amber-pale); border-color: var(--amber-border); color: #78350f; }
 .sb-neutral { background: var(--blue-pale);  border-color: var(--blue-border);  color: var(--navy-3); }
 
-/* ══════════════════════════════
-   FEATURE GRID — Countdown + Timeline
-══════════════════════════════ */
+/*FEATURE GRID — Countdown + Timeline*/
 .feature-grid {
     display: grid;
     grid-template-columns: 260px 1fr;
@@ -1712,9 +1664,7 @@ button, input, select, textarea { font-family:var(--font); }
 .tl-missed   .tl-meta-badge { background: var(--red-pale);   color: var(--red); }
 .tl-next     .tl-meta-badge { background: var(--blue-pale);  color: var(--blue); }
 
-/* ══════════════════════════════
-   QUICK ACTION BUTTONS — big, icon-rich
-══════════════════════════════ */
+/* QUICK ACTION BUTTONS — big, icon-rich */
 .quick-actions {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1750,9 +1700,7 @@ button, input, select, textarea { font-family:var(--font); }
 .qb-label { font-size: 14px; font-weight: 700; line-height: 1.2; }
 .qb-sub   { font-size: 11px; opacity: 0.72; margin-top: 2px; }
 
-/* ══════════════════════════════
-   MEDICINE CARDS
-══════════════════════════════ */
+/* MEDICINE CARDS */
 .med-card-e {
     background: var(--white);
     border: 1px solid var(--border);
@@ -1802,9 +1750,7 @@ button, input, select, textarea { font-family:var(--font); }
     display: flex; gap: 8px; flex-wrap: wrap;
 }
 
-/* ══════════════════════════════
-   RECENT ACTIVITY
-══════════════════════════════ */
+/* RECENT ACTIVITY */
 .activity-card {
     background: var(--white);
     border: 1px solid var(--border);
@@ -1843,10 +1789,7 @@ button, input, select, textarea { font-family:var(--font); }
 
 .act-empty { padding: 28px 18px; text-align: center; color: var(--text-4); font-size: 13px; }
 
-/* ══════════════════════════════
-   RESPONSIVE
-══════════════════════════════ */
-/* ── Dashboard top 2-col: banner + activity ── */
+/*  RESPONSIVE */
 .dash-top-grid {
     display: grid;
     grid-template-columns: 1fr 280px;
@@ -1855,7 +1798,7 @@ button, input, select, textarea { font-family:var(--font); }
     margin-bottom: 20px;
 }
 
-/* ── Dashboard medicines — full width ── */
+/* Dashboard medicines */
 .dash-layout {
     display: flex;
     flex-direction: column;
@@ -1890,9 +1833,7 @@ button, input, select, textarea { font-family:var(--font); }
     .bpe { flex: 1; text-align: center; }
 }
 
-/* ══════════════════════════════════════════════
-   REPORTS PAGE
-══════════════════════════════════════════════ */
+/*  REPORTS PAGE */
 
 .reports-header {
     display: flex;
@@ -2078,7 +2019,7 @@ button, input, select, textarea { font-family:var(--font); }
 .legend-text  { flex: 1; color: var(--text-2); font-weight: 500; }
 .legend-count { font-weight: 700; color: var(--text-1); }
 
-/* Mini bar — last 7 days */
+/* Mini bar - last 7 days */
 .report-minibar-label {
     font-size: 10px;
     font-weight: 700;

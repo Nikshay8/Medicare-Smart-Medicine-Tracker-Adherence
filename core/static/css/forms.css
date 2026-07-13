@@ -1,10 +1,6 @@
-/* ═══════════════════════════════════════════
-   SHARED FORM PAGE STYLES — consistent across
-   Add Medicine, Add Caregiver, View Caregiver,
-   Edit Medicine
-═══════════════════════════════════════════ */
 
-/* Page wrapper — centers everything */
+
+/* Page wrapper - to center everything */
 .form-page-wrap {
     display: flex;
     flex-direction: column;
@@ -24,7 +20,7 @@
     box-shadow: var(--shadow-md);
 }
 
-/* ── Header ── */
+/*  Header */
 .form-card-head {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 100%);
     padding: 28px 32px 26px;
@@ -79,10 +75,10 @@
     font-weight: 400;
 }
 
-/* ── Body ── */
+/* Body */
 .form-card-body { padding: 28px 32px 32px; }
 
-/* ── Label ── */
+/* Label */
 .form-label {
     display: flex;
     align-items: center;
@@ -96,7 +92,7 @@
 }
 .form-group { margin-bottom: 18px; }
 
-/* ── Inputs ── */
+/* Inputs */
 .form-input {
     width: 100%;
     padding: 12px 14px;
@@ -116,7 +112,7 @@
 }
 .form-input::placeholder { color: var(--text-4); }
 
-/* ── Select dropdowns ── */
+/* Select dropdowns */
 .form-select {
     width: 100%;
     padding: 12px 30px 12px 12px;
@@ -143,10 +139,10 @@
 .time-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 .time-hint { font-size: 11px; color: var(--text-4); margin-top: 8px; }
 
-/* ── Divider ── */
+/* Divider */
 .form-divider { height: 1px; background: var(--bg-2); margin: 20px 0; }
 
-/* ── Primary submit button ── */
+/* Primary submit button */
 .form-submit {
     width: 100%;
     padding: 14px;
@@ -172,7 +168,7 @@
 }
 .form-submit:active { transform: none; }
 
-/* ── Back link ── */
+/* Back link */
 .back-link {
     display: flex;
     align-items: center;
@@ -187,7 +183,7 @@
 }
 .back-link:hover { color: var(--blue); }
 
-/* ── Error box ── */
+/* Error box */
 .error-box {
     background: var(--red-pale);
     border: 1px solid var(--red-border);
@@ -199,7 +195,7 @@
     margin-bottom: 16px;
 }
 
-/* ── Info box (caregiver alert note) ── */
+/* Info box (caregiver alert note) */
 .form-info-box {
     display: flex;
     align-items: flex-start;
@@ -213,7 +209,7 @@
 .form-info-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
 .form-info-text { font-size: 12px; color: #1e40af; line-height: 1.5; font-weight: 500; }
 
-/* ── View Caregiver info rows ── */
+/* View Caregiver info rows  */
 .caregiver-info-row {
     display: flex;
     align-items: center;
@@ -244,7 +240,7 @@
     color: var(--text-1);
 }
 
-/* ── View Caregiver name header ── */
+/* View Caregiver name header */
 .caregiver-name-header {
     display: flex;
     align-items: center;
@@ -262,10 +258,6 @@
     flex-shrink: 0;
 }
 
-
-/* ═══════════════════════════════════════════
-   ADD MEDICINE — tips strip + how-it-works
-═══════════════════════════════════════════ */
 
 .med-tips-strip {
     display: flex;
@@ -357,9 +349,7 @@
 }
 
 
-/* ═══════════════════════════════════════════
-   ADD CAREGIVER — alert preview block
-═══════════════════════════════════════════ */
+/* ADD CAREGIVER — alert preview block*/
 
 .caregiver-alert-preview {
     background: var(--bg);
@@ -401,9 +391,7 @@
 .caregiver-alert-dot--green { background: #16a34a; }
 
 
-/* ═══════════════════════════════════════════
-   VIEW CAREGIVER — active badge + trigger box
-═══════════════════════════════════════════ */
+/* VIEW CAREGIVER */
 
 .caregiver-active-badge {
     display: inline-flex;
@@ -460,7 +448,7 @@
 }
 
 
-/* ── Caregiver action row (Edit + Delete side by side) ── */
+/* Caregiver action row */
 .caregiver-action-row {
     display: grid;
     grid-template-columns: 1fr 1fr;

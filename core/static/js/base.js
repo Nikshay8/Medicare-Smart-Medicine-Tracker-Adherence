@@ -1,4 +1,4 @@
-/* ── Sidebar toggle ── */
+/* Sidebar toggle */
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebarOverlay').style.display =
@@ -10,7 +10,7 @@ function closeSidebar() {
     document.getElementById('sidebarOverlay').style.display = 'none';
 }
 
-/* ── Profile dropdown ── */
+/* Profile dropdown */
 function toggleProfileDropdown(e) {
     e.stopPropagation();
     var avatar   = document.getElementById('headerAvatar');

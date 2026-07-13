@@ -1,8 +1,3 @@
-/**
- * MediCare Companion — Reports JS
- * Draws SVG donut charts for per-medicine adherence
- * Pure vanilla JS — zero libraries, zero conflicts
- */
 
 (function () {
     'use strict';
