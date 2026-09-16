@@ -10,6 +10,28 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+          MYSQL_DATABASE: medicare
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      DB_NAME: medicare
+      DB_USER: root
+      DB_PASSWORD: ""
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -24,6 +46,13 @@ jobs:
           pip install -r requirements.txt
           pip install pytest-playwright
           playwright install --with-deps
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            mysqladmin ping -h 127.0.0.1 -u root --silent && break
+            sleep 2
+          done
 
       - name: Run Django migrations
         run: python manage.py migrate
