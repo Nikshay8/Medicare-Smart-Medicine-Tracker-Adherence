@@ -18,4 +18,5 @@ urlpatterns = [
     path('history/', views.medicine_history, name='medicine_history'),
     path('reports/', views.reports, name='reports'),
     path('profile/', views.profile, name='profile'),
+    path('chatbot-reply/', views.chatbot_reply, name='chatbot_reply'),
 ]

@@ -8,6 +8,11 @@ from django.conf import settings
 from datetime import date
 from django.utils import timezone
 import re
+import os
+import json
+import google.generativeai as genai
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 # ── Phone number validator ──
 def is_valid_phone(phone):
@@ -523,3 +528,88 @@ def profile(request):
         'pwd_success':  pwd_success,
         'pwd_error':    pwd_error,
     })
+
+GEMINI_SYSTEM_PROMPT = """You are MediCare Assistant, a friendly helper inside a medicine reminder app for elderly patients.
+
+STRICT RULES:
+1. ONLY discuss: medicine reminders, adherence (taking medicines on time), general non-diagnostic health tips (like staying hydrated, light exercise, sleep habits), and how to use this app.
+2. NEVER diagnose any medical condition. NEVER suggest what illness someone might have.
+3. If the user describes a symptom (pain, dizziness, fever, chest discomfort, etc.) or asks about a diagnosis, medicine dosage change, or drug interaction — do NOT answer medically. Instead say something like: "It would be best to ask your doctor or caregiver about this. I can only help with reminders and adherence."
+4. Use SIMPLE, SHORT sentences. The user is elderly and may not be tech-savvy.
+5. Be warm, patient, and encouraging — never robotic or clinical.
+6. Reply in the same language style the user uses (Hindi, English, or Hinglish).
+7. Keep replies short — 2-4 sentences max, unless the user asks for more detail on adherence/reminders specifically.
+
+You will sometimes be given the user's medicine data (names, times, adherence stats). Use this ONLY to give personalized reminder/adherence encouragement (e.g. "You've missed Paracetamol 2 times this week, please try to take it on time."). Never use it to diagnose anything.
+"""
+
+def _build_user_medicine_context(user):
+    """Builds a short text summary of the user's medicines for personalization."""
+    medicines = Medicine.objects.filter(user=user)
+    if not medicines.exists():
+        return "This user has not added any medicines yet."
+
+    lines = []
+    for m in medicines:
+        logs = MedicineLog.objects.filter(medicine=m).order_by('-id')
+        taken = logs.filter(status='taken').count()
+        missed = logs.filter(status='missed').count()
+        latest = logs.first()
+        latest_status = latest.status if latest else "no record yet"
+        lines.append(
+            f"- {m.name} (scheduled at {m.time}): taken {taken} times, "
+            f"missed {missed} times, latest status: {latest_status}"
+        )
+    return "User's current medicines:\n" + "\n".join(lines)
+
+
+@login_required
+@require_POST
+def chatbot_reply(request):
+    """
+    POST endpoint. Expects JSON body: { "message": "user text here" }
+    Returns JSON: { "reply": "bot text here" } or { "error": "..." }
+    """
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+        user_message = (data.get("message") or "").strip()
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return JsonResponse({"error": "Invalid request format."}, status=400)
+
+    if not user_message:
+        return JsonResponse({"error": "Please type a message."}, status=400)
+
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        return JsonResponse(
+            {"error": "Chatbot is not configured right now. Please contact support."},
+            status=503
+        )
+
+    model_name = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+
+    try:
+        genai.configure(api_key=api_key)
+
+        medicine_context = _build_user_medicine_context(request.user)
+        full_system_prompt = GEMINI_SYSTEM_PROMPT + "\n\n" + medicine_context
+
+        model = genai.GenerativeModel(
+            model_name=model_name,
+            system_instruction=full_system_prompt,
+        )
+
+        response = model.generate_content(user_message)
+        bot_reply = (response.text or "").strip()
+
+        if not bot_reply:
+            bot_reply = "Sorry, mujhe samajh nahi aaya. Kya aap dobara bol/likh sakte hain?"
+
+        return JsonResponse({"reply": bot_reply})
+
+    except Exception as e:
+        print(f"[Gemini API error] {e}")
+        return JsonResponse(
+            {"error": "Abhi jawab nahi de pa raha. Thodi der baad try karein."},
+            status=502
+        )

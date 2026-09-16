@@ -270,8 +270,28 @@ var TAKEN_COUNT  = {{ taken_count }};
 var MISSED_COUNT = {{ missed_count }};
 </script>
 
+<button class="chatbot-fab" id="chatbotFab" aria-label="Open chat assistant">💬</button>
+
+<div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header">
+        <span>MediCare Assistant</span>
+        <button class="chatbot-header-close" id="chatbotClose" aria-label="Close chat">&times;</button>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages">
+        <div class="chatbot-msg bot">
+            Namaste! Main aapki dawai reminders aur adherence mein madad kar sakta hoon. Kuch poochna hai?
+        </div>
+    </div>
+    <div class="chatbot-input-area">
+        <button class="chatbot-mic-btn" id="chatbotMicBtn" aria-label="Voice input" title="Bol kar poochein">🎤</button>
+        <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Apna sawaal likhein..." autocomplete="off">
+        <button class="chatbot-send-btn" id="chatbotSendBtn" aria-label="Send message">➤</button>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/dashboard.js' %}"></script>
+<script src="{% static 'js/chatbot.js' %}"></script>
 {% endblock %}
