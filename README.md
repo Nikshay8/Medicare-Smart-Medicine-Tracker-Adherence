@@ -1,11 +1,16 @@
 # Medicare – Smart Medicine Adherence & Caregiver Alert System
 
-A Django-based medicine adherence web app for elderly users with caregiver email alerts and missed dose tracking.
+A Django-based medicine adherence web app for elderly users with caregiver email alerts, missed dose tracking, and an AI-powered chatbot assistant.
+
+## Version
+**v2.0.0** — Added Gemini AI chatbot and Playwright end-to-end test suite.
 
 ## Tech Stack
 - Python, Django
 - MySQL
 - HTML, CSS, JavaScript
+- Google Gemini API (chatbot)
+- Playwright (automated testing)
 
 ## Features
 - User registration, login, and session-based authentication
@@ -13,6 +18,8 @@ A Django-based medicine adherence web app for elderly users with caregiver email
 - Missed dose streak detection with automatic caregiver email alerts
 - 30-day adherence reports and medicine history dashboard
 - Duplicate entry prevention and time-aware dose reminders
+- AI chatbot (powered by Gemini) for medicine-related queries and support
+- End-to-end test coverage using Playwright
 
 ## Setup Instructions
 
@@ -28,8 +35,18 @@ Update DATABASES settings in settings.py with your MySQL credentials
 ### 4. Configure email
 Update EMAIL_HOST_USER and EMAIL_HOST_PASSWORD in settings.py
 
-### 5. Run migrations
+### 5. Configure Gemini API
+Add your Gemini API key to the `.env` file (see `.env.example` if available)
+
+### 6. Run migrations
 python manage.py migrate
 
-### 6. Start the server
+### 7. Start the server
 python manage.py runserver
+
+## Running Tests
+This project uses Playwright for end-to-end testing.
+
+pip install pytest-playwright
+playwright install
+pytest tests/
