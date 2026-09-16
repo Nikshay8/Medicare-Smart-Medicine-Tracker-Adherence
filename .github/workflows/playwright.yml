@@ -57,6 +57,14 @@ jobs:
       - name: Run Django migrations
         run: python manage.py migrate
 
+      - name: Create test user
+        run: |
+          python manage.py shell -c "
+          from django.contrib.auth.models import User
+          if not User.objects.filter(username='testuser').exists():
+              User.objects.create_user('testuser', password='testpass123')
+          "
+
       - name: Start Django server
         run: |
           python manage.py runserver 127.0.0.1:8000 &
