@@ -1,9 +1,11 @@
+![Playwright Tests](https://github.com/Nikshay8/Medicare-Smart-Medicine-Tracker-Adherence/actions/workflows/playwright.yml/badge.svg)
+
 # Medicare – Smart Medicine Adherence & Caregiver Alert System
 
 A Django-based medicine adherence web app for elderly users with caregiver email alerts, missed dose tracking, and an AI-powered chatbot assistant.
 
 ## Version
-**v2.0.0** — Added Gemini AI chatbot and Playwright end-to-end test suite.
+**v3.0.0** — Refactored Playwright tests to Page Object Model with fixtures, plus GitHub Actions CI.
 
 ## Tech Stack
 - Python, Django
@@ -45,8 +47,9 @@ python manage.py migrate
 python manage.py runserver
 
 ## Running Tests
+
 This project uses Playwright for end-to-end testing.
 
-pip install pytest-playwright
-playwright install
-pytest tests/
+pip install -r requirements-test.txt
+playwright install chromium
+pytest
