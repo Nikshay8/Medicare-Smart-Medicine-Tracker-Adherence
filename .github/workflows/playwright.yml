@@ -6,14 +6,14 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:   # adds a "Run workflow" button in the Actions tab (manual run)
+  workflow_dispatch:   # Manual run button in the Actions tab
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15   # kill the job if it hangs, instead of waiting for hours
+    timeout-minutes: 15   # Kill the job if it hangs
 
-    # A real MySQL database that lives only for this job
+    # Ephemeral MySQL database, lives only for this job
     services:
       mysql:
         image: mysql:8.0
@@ -46,8 +46,15 @@ jobs:
         with:
           python-version: '3.14'
 
+      # ADDED: system libraries needed to build mysqlclient
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pkg-config libmysqlclient-dev build-essential
+
       - name: Install dependencies
         run: |
+          pip install -r requirements.txt        # ADDED: app dependencies (Django etc.). This was the missing line.
           pip install -r requirements-test.txt
           playwright install --with-deps chromium
 
@@ -72,17 +79,17 @@ jobs:
       - name: Start Django server
         run: |
           python manage.py runserver 127.0.0.1:8000 --noreload > server.log 2>&1 &
-          # Wait until the server really answers (more reliable than a fixed sleep)
+          # Wait until the server actually responds
           for i in {1..30}; do
             curl -sf http://127.0.0.1:8000/login/ > /dev/null && break
             sleep 2
           done
-          curl -sf http://127.0.0.1:8000/login/ > /dev/null   # fail the step here if it never came up
+          curl -sf http://127.0.0.1:8000/login/ > /dev/null   # Fail here if the server never came up
 
       - name: Run Playwright tests
         run: pytest -v
 
-      # Only when something failed: save traces/screenshots/videos so you can download and debug them
+      # On failure, save traces/screenshots/logs for debugging
       - name: Upload test artifacts
         if: failure()
         uses: actions/upload-artifact@v4
