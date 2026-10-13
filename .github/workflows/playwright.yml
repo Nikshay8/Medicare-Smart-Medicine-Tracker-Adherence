@@ -1,3 +1,4 @@
+# Runs the Playwright test suite on every push / pull request to main.
 name: Playwright Tests
 
 on:
@@ -5,11 +6,14 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:   # adds a "Run workflow" button in the Actions tab (manual run)
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15   # kill the job if it hangs, instead of waiting for hours
 
+    # A real MySQL database that lives only for this job
     services:
       mysql:
         image: mysql:8.0
@@ -25,6 +29,7 @@ jobs:
           --health-timeout=5s
           --health-retries=10
 
+    # settings.py reads these via os.getenv (no .env file exists on the CI machine)
     env:
       DB_NAME: medicare
       DB_USER: root
@@ -43,9 +48,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-          pip install pytest-playwright
-          playwright install --with-deps
+          pip install -r requirements-test.txt
+          playwright install --with-deps chromium
 
       - name: Wait for MySQL
         run: |
@@ -67,8 +71,24 @@ jobs:
 
       - name: Start Django server
         run: |
-          python manage.py runserver 127.0.0.1:8000 &
-          sleep 5
+          python manage.py runserver 127.0.0.1:8000 --noreload > server.log 2>&1 &
+          # Wait until the server really answers (more reliable than a fixed sleep)
+          for i in {1..30}; do
+            curl -sf http://127.0.0.1:8000/login/ > /dev/null && break
+            sleep 2
+          done
+          curl -sf http://127.0.0.1:8000/login/ > /dev/null   # fail the step here if it never came up
 
       - name: Run Playwright tests
-        run: pytest tests/ -v
+        run: pytest -v
+
+      # Only when something failed: save traces/screenshots/videos so you can download and debug them
+      - name: Upload test artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: |
+            test-results/
+            server.log
+          if-no-files-found: ignore
